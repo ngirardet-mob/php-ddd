@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+        colors="true"
+        processIsolation="false"
+        stopOnFailure="false"
+>
+    <php>
+        <ini name="memory_limit" value="-1"/>
+        <ini name="apc.enable_cli" value="1"/>
+    </php>
+
+    <!-- Add any additional test suites you want to run here -->
+    <testsuites>
+        <testsuite name="Unit Test Suite">
+            <directory suffix="Test.php">./tests/UnitTest</directory>
+        </testsuite>
+        <!--<testsuite name="Integration Test Suite">
+            <directory suffix="Test.php">./tests/Integration</directory>
+        </testsuite>-->
+    </testsuites>
+
+    <!-- Prevent coverage reports from looking in tests and vendors -->
+    <coverage>
+        <include>
+            <directory suffix=".php">./src/</directory>
+            <directory suffix=".php">./tests/Fixture</directory>
+        </include>
+        <exclude>
+            <directory suffix=".php">./vendor/</directory>
+            <directory suffix=".php">./tests/UnitTest</directory>
+            <!--<directory suffix=".php">./tests/Integration</directory>-->
+        </exclude>
+    </coverage>
+
+</phpunit>

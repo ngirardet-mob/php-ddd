@@ -1,0 +1,30 @@
+{
+    "name": "ngirardet/php-ddd",
+    "description": "PHP DDD Tools & Helpers. Eases DDD projects starting.",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Ngirardet\\PhpDdd\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Ngirardet\\PhpDdd\\Test\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Nicolas Girardet",
+            "email": "nicolas.girardet@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "suggest": {
+        "ramsey/uuid": "Generates GUID entity ID",
+        "league/event": "Application or Domain event manager",
+        "league/container": "Dependency Injection Container"
+    }
+}
