@@ -29,12 +29,12 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       
-      - name: Environment debug
-        run: php -v && ${{ matrix.php-versions }}
+      #- name: Environment debug
+      #  run: php -v && ls -la $(which php)*
 
       # Runs a single command using the runners shell
-      - name: Validate composer
-        run: composer validate --strict
+      #- name: Validate composer
+      #  run: composer validate --strict
 
       - name: Cache Composer packages
         id: composer-cache
@@ -44,5 +44,12 @@ jobs:
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-php-
+
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Running test with PHP ${{ matrix.php-versions }}
+        with:
+          php-version: ${{ matrix.php-versions }}
+          tools: phpunit
+        run: phpunit ./phpunit.xml.dist
