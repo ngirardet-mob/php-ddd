@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Compatibility with PHP 8.0+
 
 # Controls when the workflow will run
 on:
@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: ['7.4', '8.0', '8.1']
+        php-versions: ['8.0', '8.1']
         phpunit-versions: ['latest']
 
     # Steps represent a sequence of tasks that will be executed as part of the job
