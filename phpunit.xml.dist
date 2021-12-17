@@ -14,9 +14,9 @@
         <testsuite name="Unit Test Suite">
             <directory suffix="Test.php">./tests/UnitTest</directory>
         </testsuite>
-        <!--<testsuite name="Integration Test Suite">
+        <testsuite name="Integration Test Suite">
             <directory suffix="Test.php">./tests/Integration</directory>
-        </testsuite>-->
+        </testsuite>
     </testsuites>
 
     <!-- Prevent coverage reports from looking in tests and vendors -->
@@ -28,7 +28,7 @@
         <exclude>
             <directory suffix=".php">./vendor/</directory>
             <directory suffix=".php">./tests/UnitTest</directory>
-            <!--<directory suffix=".php">./tests/Integration</directory>-->
+            <directory suffix=".php">./tests/Integration</directory>
         </exclude>
     </coverage>
 

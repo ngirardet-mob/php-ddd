@@ -27,6 +27,6 @@ abstract class InMemoryRepository implements IRepository {
     }
 
     public function nextId(): int {
-        return count($this->memory);
+        return count($this->memory) + 1;
     }
 }
