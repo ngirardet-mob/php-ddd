@@ -30,7 +30,7 @@ jobs:
       - uses: actions/checkout@v2
       
       - name: Environment debug
-        run: php -v && ${{ matrix.php-versions }}
+        run: php -v && ls -la $(which php)*
 
       # Runs a single command using the runners shell
       - name: Validate composer
