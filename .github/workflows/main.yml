@@ -48,8 +48,6 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-interaction
 
-      - name: Running test with PHP ${{ matrix.php-versions }}
-        with:
-          php-version: ${{ matrix.php-versions }}
-          tools: phpunit
-        run: phpunit ./phpunit.xml.dist
+      - name: Running test with PHP 8.1
+        run: /usr/bin/php8.1 ./vendor/phpunit/phpunit/phpunit --configuration ./phpunit.xml.dist
+
