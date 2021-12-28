@@ -25,8 +25,7 @@ class DummyInMemoryRepositoryTest extends TestCase {
     /**
      * @param \Ngirardet\PhpDdd\Test\Fixture\Infrastructure\Repository\DummyInMemoryRepository $repository
      *
-     * @return void
-     *
+     * @return \Ngirardet\PhpDdd\Test\Fixture\Infrastructure\Repository\InMemoryRepository
      * @depends testConstruction
      */
     public function testSave(DummyInMemoryRepository $repository): InMemoryRepository {
