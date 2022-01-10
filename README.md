@@ -33,6 +33,61 @@ An entity can be created with the constructor or with a static method `create`. 
 The main advantage to a private constructor is to have complete freedom on constructor arguments.
 
 It's suggested to create two static method: `create` and `reconstructe`. Usually, `create`'s method signature is the same as `reconstructe` without the `ID` argument. When it's possible, `create` calls `reconstructe`.
+
+## Events
+You must avoid to call `Dispatcher` from your domain entities. Instead, consider declaring a trait and call it.
+Doing so will considerably reduce coupling with `Dispatcher`.
+
+```php
+trait DomainEventDispatcher {
+    public function dispatch(\Ngirardet\PhpDdd\Domain\Event\IEvent $event) {
+        Publisher::instance()->dispatch($event);
+    }
+}
+```
+
+Example of an entity dispatching an event:
+
+```php
+class MyEntity {
+    use DomainEventDispatcher;
+    
+    public function someMethod() {
+        $this->dispatch(new SomeEventTriggered());
+    }
+}
+```
+
+
+Example of an event listener:
+```php
+class MyEventListener implements IListener {
+    /**
+     * Some operations when the event is triggered
+     * @param \SomeEventTriggered|\IEvent $aDomainEvent
+     * @return void
+     */
+    public function handle(SomeEventTriggered|IEvent $aDomainEvent): void {
+        $this->eventHasTriggered = true;
+    }
+
+    /**
+     * Check if this listener should interact with the queried event 
+     */
+    public function isSubscribedTo(IEvent $aDomainEvent): bool {
+        return get_class($aDomainEvent) === SomeEventTriggered::class;
+    }
+
+    /**
+     * Some getter to retrieve event or subject properties 
+     * @return bool
+     */
+    public function getEventHasTriggered(): bool {
+        return $this->eventHasTriggered;
+    }
+}
+```
+
 # Application
 ## Service
 ### When to use a service
