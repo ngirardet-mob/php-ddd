@@ -7,6 +7,7 @@
 
 namespace Ngirardet\PhpDdd\Test\Fixture\Infrastructure\Repository;
 
+use Ngirardet\PhpDdd\Common\Specification\ISpecification;
 use Ngirardet\PhpDdd\Test\Fixture\Domain\Entity\DummyEntity;
 use Ngirardet\PhpDdd\Test\Fixture\Domain\Repository\IDummyRepository;
 use Ngirardet\PhpDdd\Test\Fixture\Infrastructure\Helper\Identity\DummyCompositeIdentity;
@@ -21,6 +22,10 @@ class DummyInMemoryRepository extends InMemoryRepository implements IDummyReposi
 
     public function get(DummyCompositeIdentity $identity): DummyEntity {
         return $this->memory[$this->_compositeIdToString($identity)];
+    }
+
+    public function find(ISpecification $specification): self {
+        return $this->filter([$specification, 'isSatisfiedBy']);
     }
 
     private function _compositeIdToString(DummyCompositeIdentity $identity): string {

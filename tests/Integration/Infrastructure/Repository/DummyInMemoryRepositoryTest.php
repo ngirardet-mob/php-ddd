@@ -7,6 +7,7 @@
 
 namespace Ngirardet\PhpDdd\Test\Integration\Infrastructure\Repository;
 
+use Ngirardet\PhpDdd\Test\Fixture\Common\Specification\DummyCustomSpecification;
 use Ngirardet\PhpDdd\Test\Fixture\Domain\Entity\DummyEntity;
 use Ngirardet\PhpDdd\Test\Fixture\Infrastructure\Helper\Identity\DummyCompositeIdentity;
 use Ngirardet\PhpDdd\Test\Fixture\Infrastructure\Repository\DummyInMemoryRepository;
@@ -79,6 +80,18 @@ class DummyInMemoryRepositoryTest extends TestCase {
      * @depends testSave
      */
     public function testNextId(DummyInMemoryRepository $repository) {
-        self:self::assertEquals(2, $repository->nextId());
+        self::assertEquals(2, $repository->nextId());
+    }
+
+    /**
+     * @param \Ngirardet\PhpDdd\Test\Fixture\Infrastructure\Repository\DummyInMemoryRepository $repository
+     *
+     * @return void
+     *
+     * @depends testSave
+     */
+    public function testFind(DummyInMemoryRepository $repository) {
+        self::assertCount(1, $repository->find(new DummyCustomSpecification('Dummy entity')));
+        self::assertCount(0, $repository->find(new DummyCustomSpecification('Dummy entityyyy')));
     }
 }

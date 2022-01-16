@@ -29,4 +29,11 @@ abstract class InMemoryRepository implements IRepository {
     public function nextId(): int {
         return count($this->memory) + 1;
     }
+
+    protected function filter(callable $filter): static {
+        $clone = clone $this;
+        $clone->memory = array_filter($clone->memory, $filter);
+
+        return $clone;
+    }
 }
