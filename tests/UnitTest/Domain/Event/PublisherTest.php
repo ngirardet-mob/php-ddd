@@ -49,18 +49,6 @@ class PublisherTest extends TestCase {
         clone $this->domainEventPublisher;
     }
 
-    public function testSubscriptionInstanceShouldBeUnique() {
-        $this->markTestSkipped("This test fails... I don't think uniqueness registration should be handled by Publisher class.");
-        $event = $this->createMock(IEvent::class);
-        $eventListener = $this->createMock(IListener::class);
-        $eventListener->method('isSubscribedTo')->willReturn(true);
-        $this->domainEventPublisher->subscribe($eventListener, false);
-        $this->domainEventPublisher->subscribe($eventListener, false);
-
-        $eventListener->expects(new InvokedCount(1))->method('handle');
-        $this->domainEventPublisher->dispatch($event);
-    }
-
     public function testSubscriptionInstanceShouldBeMultiple() {
         $event = $this->createMock(IEvent::class);
         $eventListener = $this->createMock(IListener::class);
@@ -78,5 +66,13 @@ class PublisherTest extends TestCase {
             ->setMockClassName('SomeUnregisteredListener')
             ->getMock();
         self::assertFalse($this->domainEventPublisher->isRegistered(get_class($mock)));
+    }
+
+    public function testIsRegistered() {
+        $mock = $this->getMockBuilder(IListener::class)
+            ->setMockClassName('SomeRegisteredListener')
+            ->getMock();
+        $this->domainEventPublisher->subscribe($mock);
+        self::assertTrue($this->domainEventPublisher->isRegistered(get_class($mock)));
     }
 }
