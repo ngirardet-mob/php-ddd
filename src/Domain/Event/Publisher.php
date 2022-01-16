@@ -33,12 +33,8 @@ class Publisher implements EventDispatcherInterface, ListenerProviderInterface {
         throw new \BadMethodCallException('Clone is not supported');
     }
 
-    public function subscribe(IListener $domainEventListener, bool $allowMultipleRegistrations = true)
+    public function subscribe(IListener $domainEventListener)
     {
-        if (!$allowMultipleRegistrations && $this->isRegistered(get_class($domainEventListener))) {
-            return;
-        }
-
         $this->listeners[] = $domainEventListener;
     }
 
