@@ -8,11 +8,17 @@
 namespace Ngirardet\PhpDdd\Test\Fixture\Domain\Entity;
 
 use Ngirardet\PhpDdd\Domain\Entity\IAggregateRoot;
-use Ngirardet\PhpDdd\Infrastructure\Helper\Identity\CompositeIdentity;
+use Ngirardet\PhpDdd\Domain\Event\EventDispatcherTrait;
+use Ngirardet\PhpDdd\Test\Fixture\Domain\Event\DummyEvent;
 use Ngirardet\PhpDdd\Test\Fixture\Infrastructure\Helper\Identity\DummyCompositeIdentity;
 
 class DummyEntity implements IAggregateRoot {
-    public function __construct(private DummyCompositeIdentity $id, private string $name) {}
+    use EventDispatcherTrait;
+
+    public function __construct(
+        private DummyCompositeIdentity $id,
+        private string $name
+    ) {}
 
     public function getId(): DummyCompositeIdentity {
         return $this->id;
@@ -26,5 +32,9 @@ class DummyEntity implements IAggregateRoot {
         $this->name = $name;
 
         return $this;
+    }
+
+    public function triggerEvent(string $aValue): DummyEvent {
+        return self::dispatch(new DummyEvent($aValue));
     }
 }

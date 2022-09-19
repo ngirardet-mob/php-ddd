@@ -13,15 +13,21 @@ use Ngirardet\PhpDdd\Test\Fixture\Domain\Repository\IDummyRepository;
 use Ngirardet\PhpDdd\Test\Fixture\Infrastructure\Helper\Identity\DummyCompositeIdentity;
 
 class DummyInMemoryRepository extends InMemoryRepository implements IDummyRepository {
+    public function __construct(
 
-    public function save(DummyEntity $entity): bool {
-        $this->memory[$this->_compositeIdToString($entity->getId())] = $entity;
+    ) {
+        $this->mapper = new DummyMapper();
+    }
 
-        return true;
+    public function save(DummyEntity $entity): DummyEntity {
+        $repositoryEntity = $this->mapper::toRepository($entity);
+        $this->memory[$this->_compositeIdToString($entity->getId())] = $repositoryEntity;
+
+        return $this->mapper::toBusiness($repositoryEntity);
     }
 
     public function get(DummyCompositeIdentity $identity): DummyEntity {
-        return $this->memory[$this->_compositeIdToString($identity)];
+        return $this->mapper::toBusiness($this->memory[$this->_compositeIdToString($identity)]);
     }
 
     public function find(ISpecification $specification): self {

@@ -27,8 +27,8 @@ class DummyAndSpecification extends BaseSpecification {
     protected function getSpecExpression(mixed $element): callable {
         return function () use ($element): bool {
             $andSpec = new AndSpecification(
-                new DummyCustomSpecification($this->firstEntityName),
-                new DummyCustomSpecification($this->secondEntityName)
+                new DummyBusinessCustomSpecification($this->firstEntityName),
+                new DummyBusinessCustomSpecification($this->secondEntityName)
             );
 
             return $andSpec->isSatisfiedBy($element);

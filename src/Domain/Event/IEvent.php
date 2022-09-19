@@ -7,8 +7,15 @@
 
 namespace Ngirardet\PhpDdd\Domain\Event;
 
-use DateTimeImmutable;
+use DateTimeInterface;
 
+/**
+ * Base interface for Events
+ */
 interface IEvent {
-    public function occurredOn(): DateTimeImmutable;
+    /**
+     * Datetime of the event
+     * @return DateTimeInterface
+     */
+    public function occurredOn(): DateTimeInterface;
 }

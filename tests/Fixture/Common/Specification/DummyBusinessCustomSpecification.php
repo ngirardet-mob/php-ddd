@@ -14,11 +14,11 @@ use Ngirardet\PhpDdd\Test\Fixture\Domain\Entity\DummyEntity;
  * @method isSatisfiedBy(DummyEntity $element)
  * @template-implements BaseSpecification<\Ngirardet\PhpDdd\Test\Fixture\Domain\Entity\DummyEntity>
  */
-class DummyCustomSpecification extends BaseSpecification {
+class DummyBusinessCustomSpecification extends BaseSpecification {
     public function __construct(private string $entityName) {}
 
     /**
-     * @param DummyEntity $element
+     * @param DummyEntity $element Dummy entity used by the domain as Business object
      *
      * @return callable
      */

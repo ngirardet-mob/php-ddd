@@ -7,13 +7,25 @@
 
 namespace Ngirardet\PhpDdd\Domain\Event;
 
+use BadMethodCallException;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\EventDispatcher\ListenerProviderInterface;
 
+/**
+ * Global instance gathering and dispatching events
+ * @note EventDispatcherInterface could be in another class for a better separation of concern
+ */
 class Publisher implements EventDispatcherInterface, ListenerProviderInterface {
+    /**
+     * @var \Ngirardet\PhpDdd\Domain\Event\IListener[]
+     */
     private array $listeners;
     private static self $instance;
 
+    /**
+     * Self unique instance (singleton)
+     * @return static
+     */
     public static function instance(): static
     {
         if (!isset(static::$instance)) {
@@ -23,32 +35,41 @@ class Publisher implements EventDispatcherInterface, ListenerProviderInterface {
         return static::$instance;
     }
 
+    /**
+     * Constructor
+     */
     private function __construct()
     {
         $this->listeners = [];
     }
 
+    /**
+     * Clone is forbidden
+     * @throws BadMethodCallException
+     */
     public function __clone()
     {
-        throw new \BadMethodCallException('Clone is not supported');
+        throw new BadMethodCallException('Clone is not supported. You must use this unique instance.');
     }
 
-    public function subscribe(IListener $domainEventListener)
-    {
+    /**
+     * Register new subscription
+     * @param \Ngirardet\PhpDdd\Domain\Event\IListener $domainEventListener
+     *
+     * @return void
+     */
+    public function subscribe(IListener $domainEventListener): void {
         $this->listeners[] = $domainEventListener;
     }
 
-    public function isRegistered(string $domainEventListenerClassName): bool {
-        foreach ($this->listeners as $listener) {
-            if (get_class($listener) === $domainEventListenerClassName) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public function dispatch(object $event): object
+    /**
+     * Call registered listeners
+     *
+     * @param object|\Ngirardet\PhpDdd\Domain\Event\IEvent $event IEvent
+     *
+     * @return \Ngirardet\PhpDdd\Domain\Event\IEvent IEvent
+     */
+    public function dispatch(object $event): IEvent
     {
         foreach ($this->getListenersForEvent($event) as $listener) {
             $listener->handle($event);
@@ -57,10 +78,16 @@ class Publisher implements EventDispatcherInterface, ListenerProviderInterface {
         return $event;
     }
 
+    /**
+     * Retrieve listeners subscribed to an event
+     * @param object $event IEvent
+     *
+     * @return iterable List of listeners
+     */
     public function getListenersForEvent(object $event): iterable {
         $listenersForEvent = [];
         foreach ($this->listeners as $listener) {
-            if ($listener->isSubscribedTo($event)) {
+            if ($listener->isSubscribedTo(get_class($event))) {
                 $listenersForEvent[] = $listener;
             }
         }

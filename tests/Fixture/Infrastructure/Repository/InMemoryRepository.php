@@ -10,14 +10,16 @@ namespace Ngirardet\PhpDdd\Test\Fixture\Infrastructure\Repository;
 use ArrayObject;
 use Iterator;
 use Ngirardet\PhpDdd\Domain\Repository\IRepository;
+use Ngirardet\PhpDdd\Infrastructure\Repository\IMapper;
 
 abstract class InMemoryRepository implements IRepository {
     protected array $memory = [];
+    protected IMapper $mapper;
 
     public function getIterator(): Iterator {
-        $array = new ArrayObject($this->memory);
-
-        return $array->getIterator();
+        foreach ($this->memory as $next) {
+            yield $this->mapper::toBusiness($next);
+        }
     }
 
     public function count(): int {
@@ -35,5 +37,9 @@ abstract class InMemoryRepository implements IRepository {
         $clone->memory = array_filter($clone->memory, $filter);
 
         return $clone;
+    }
+
+    public function toArray(): array {
+        return iterator_to_array($this->getIterator());
     }
 }

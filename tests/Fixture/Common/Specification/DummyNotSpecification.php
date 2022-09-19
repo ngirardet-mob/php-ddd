@@ -28,7 +28,7 @@ class DummyNotSpecification extends BaseSpecification {
     protected function getSpecExpression(mixed $element): callable {
         return function () use ($element): bool {
             $notSpec = new NotSpecification(
-                new DummyCustomSpecification($this->entityName)
+                new DummyBusinessCustomSpecification($this->entityName)
             );
 
             return $notSpec->isSatisfiedBy($element);

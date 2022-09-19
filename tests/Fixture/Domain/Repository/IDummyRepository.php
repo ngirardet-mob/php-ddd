@@ -12,7 +12,7 @@ use Ngirardet\PhpDdd\Test\Fixture\Domain\Entity\DummyEntity;
 use Ngirardet\PhpDdd\Test\Fixture\Infrastructure\Helper\Identity\DummyCompositeIdentity;
 
 interface IDummyRepository extends IRepository {
-    public function save(DummyEntity $entity): bool;
+    public function save(DummyEntity $entity): DummyEntity;
 
     public function get(DummyCompositeIdentity $identity): DummyEntity;
 }

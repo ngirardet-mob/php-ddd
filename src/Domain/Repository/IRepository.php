@@ -31,7 +31,15 @@ interface IRepository extends Countable, IteratorAggregate {
 
     /**
      * Next RDBMS table identifier
+     *
      * @return mixed
      */
     public function nextId(): mixed;
+
+    /**
+     * Get results as array
+     *
+     * @return array
+     */
+    public function toArray(): array;
 }

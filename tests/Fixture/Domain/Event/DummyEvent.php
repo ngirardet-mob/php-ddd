@@ -7,19 +7,14 @@
 
 namespace Ngirardet\PhpDdd\Test\Fixture\Domain\Event;
 
-use DateTimeImmutable;
-use Ngirardet\PhpDdd\Domain\Event\IEvent;
+use Ngirardet\PhpDdd\Domain\Event\Event;
 
-class DummyEvent implements IEvent {
-    public function __construct(private string $someValue) {
-
-    }
+class DummyEvent extends Event {
+    public function __construct(
+        private string $someValue
+    ) {}
 
     public function getSomeValue(): string {
         return $this->someValue;
-    }
-
-    public function occurredOn(): DateTimeImmutable {
-        return new DateTimeImmutable();
     }
 }

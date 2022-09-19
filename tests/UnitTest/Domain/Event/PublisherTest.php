@@ -60,19 +60,4 @@ class PublisherTest extends TestCase {
 
         $this->domainEventPublisher->dispatch($event);
     }
-
-    public function testIsNotRegistered() {
-        $mock = $this->getMockBuilder(IListener::class)
-            ->setMockClassName('SomeUnregisteredListener')
-            ->getMock();
-        self::assertFalse($this->domainEventPublisher->isRegistered(get_class($mock)));
-    }
-
-    public function testIsRegistered() {
-        $mock = $this->getMockBuilder(IListener::class)
-            ->setMockClassName('SomeRegisteredListener')
-            ->getMock();
-        $this->domainEventPublisher->subscribe($mock);
-        self::assertTrue($this->domainEventPublisher->isRegistered(get_class($mock)));
-    }
 }

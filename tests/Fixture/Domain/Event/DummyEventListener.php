@@ -28,7 +28,7 @@ class DummyEventListener implements IListener {
     /**
      * @inheritDoc
      */
-    public function isSubscribedTo(IEvent $aDomainEvent): bool {
-        return get_class($aDomainEvent) === DummyEvent::class;
+    public function isSubscribedTo(string $eventClassName): bool {
+        return $eventClassName === DummyEvent::class;
     }
 }

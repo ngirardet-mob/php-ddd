@@ -14,5 +14,5 @@ namespace Ngirardet\PhpDdd\Domain\Entity;
  * @template T
  */
 interface IAggregateRoot {
-    public function getId(): IIdentity;
+    public function getId(): ?IIdentity;
 }

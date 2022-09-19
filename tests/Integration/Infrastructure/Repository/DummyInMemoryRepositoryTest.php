@@ -7,7 +7,8 @@
 
 namespace Ngirardet\PhpDdd\Test\Integration\Infrastructure\Repository;
 
-use Ngirardet\PhpDdd\Test\Fixture\Common\Specification\DummyCustomSpecification;
+use Ngirardet\PhpDdd\Test\Fixture\Common\Specification\DummyBusinessCustomSpecification;
+use Ngirardet\PhpDdd\Test\Fixture\Common\Specification\DummyRepositoryCustomSpecification;
 use Ngirardet\PhpDdd\Test\Fixture\Domain\Entity\DummyEntity;
 use Ngirardet\PhpDdd\Test\Fixture\Infrastructure\Helper\Identity\DummyCompositeIdentity;
 use Ngirardet\PhpDdd\Test\Fixture\Infrastructure\Repository\DummyInMemoryRepository;
@@ -33,7 +34,7 @@ class DummyInMemoryRepositoryTest extends TestCase {
         $entityId = DummyCompositeIdentity::fromArray(['id' => 1, 'ref' => 2]);
         $entity = new DummyEntity($entityId, 'Dummy entity');
 
-        self::assertTrue($repository->save($entity));
+        self::assertEquals($entity, $repository->save($entity));
 
         return $repository;
     }
@@ -91,7 +92,10 @@ class DummyInMemoryRepositoryTest extends TestCase {
      * @depends testSave
      */
     public function testFind(DummyInMemoryRepository $repository) {
-        self::assertCount(1, $repository->find(new DummyCustomSpecification('Dummy entity')));
-        self::assertCount(0, $repository->find(new DummyCustomSpecification('Dummy entityyyy')));
+        $array = $repository->find(new DummyRepositoryCustomSpecification('Dummy entity'))->toArray();
+        self::assertCount(1, $array);
+        self::assertInstanceOf(DummyEntity::class, $array[0]);
+        self::assertCount(1, $repository->find(new DummyRepositoryCustomSpecification('Dummy entity')));
+        self::assertCount(0, $repository->find(new DummyRepositoryCustomSpecification('Dummy entityyyy')));
     }
 }

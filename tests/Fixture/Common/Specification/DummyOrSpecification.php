@@ -27,8 +27,8 @@ class DummyOrSpecification extends BaseSpecification {
     protected function getSpecExpression(mixed $element): callable {
         return function () use ($element): bool {
             $orSpec = new OrSpecification(
-                new DummyCustomSpecification($this->firstEntityName),
-                new DummyCustomSpecification($this->secondEntityName)
+                new DummyBusinessCustomSpecification($this->firstEntityName),
+                new DummyBusinessCustomSpecification($this->secondEntityName)
             );
 
             return $orSpec->isSatisfiedBy($element);
